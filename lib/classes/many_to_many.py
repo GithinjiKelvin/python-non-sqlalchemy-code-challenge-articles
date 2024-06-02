@@ -1,4 +1,6 @@
+
 class Article:
+
     all = []
 
     def __init__(self, author, magazine, title):
@@ -6,7 +8,7 @@ class Article:
         self.magazine = magazine
         self.title = title
         Article.all.append(self)
-
+    
     @property
     def title(self):
         return self._title
@@ -14,16 +16,10 @@ class Article:
     @title.setter
     def title(self, new_title):
         if hasattr(self, "title"):
-            AttributeError("Title cannot be changed")
-        else:
-            if isinstance(new_title, str):
-                if 5 <= len(new_title) <= 50:
-                    self._title = new_title
-                else:
-                    ValueError("Title must be between 5 and 50 characters")
-            else:
-                TypeError("Title must be a string")
-            
+            AttributeError("Title can't be changed")
+        elif isinstance(new_title, str) and 5<=len(new_title)<=50:
+            self._title = new_title
+
     @property
     def author(self):
         return self._author
@@ -33,8 +29,8 @@ class Article:
         if isinstance(new_author, Author):
             self._author = new_author
         else:
-            TypeError("Author must be an instance of Author")
-        
+            TypeError("Author must be of type Author")
+    
     @property
     def magazine(self):
         return self._magazine
@@ -44,33 +40,28 @@ class Article:
         if isinstance(new_magazine, Magazine):
             self._magazine = new_magazine
         else:
-            TypeError("Magazine must be an instance of Magazine")
-    #pass.
-
+            TypeError("Magazine must be of type Magazine")
+        
 class Author:
     def __init__(self, name):
         self.name = name
-
+    
     @property
     def name(self):
-        return self._name
-
+        return self._name 
+    
     @name.setter
     def name(self, new_name):
-        if hasattr(self, "name"):
-            AttributeError("Name cannot be changed")
-        else:
-            if isinstance(new_name, str):
-                if len(new_name):
-                    self._name = new_name
-                else:
-                    ValueError("Name must be longer than 0 characters")
-            else:
-                TypeError("Name must be a string")
+        if hasattr(self,"name"):
+            print("Name cannot be changed")
+        elif type(new_name) == str and 0<len(new_name):
+            self._name =  new_name
+            
 
     def articles(self):
         return [article for article in Article.all if self == article.author]
-    
+
+
     def magazines(self):
         return list({article.magazine for article in self.articles()})
 
@@ -83,8 +74,6 @@ class Author:
             return topic_areas
         else:
             return None
-        #pass.
-
 
 class Magazine:
     def __init__(self, name, category):
@@ -93,34 +82,29 @@ class Magazine:
 
     @property
     def name(self):
-        return self._name
-
+        return self._name 
+    
     @name.setter
-    def name(self, new_name):
-        if isinstance(new_name, str):
-            if 2 <= len(new_name) <= 16:
-                self._name = new_name
-            else: 
-                ValueError("Name must be between 2 and 16 characters")
+    def name(self, name):
+        if type(name) == str and 2<= len(name) <= 16:
+            self._name = name
         else:
-            TypeError("Name must be a string")   
-        
+            print("magazine name should be astring and between 2 t 16 characters")
+
     @property
     def category(self):
         return self._category
-
+    
     @category.setter
-    def category(self, new_category):
-        if isinstance(new_category, str):
-            if len(new_category):
-                self._category = new_category
-            else:
-                ValueError("Category must be longer than 0 characters")
+    def category(self, category):
+        if isinstance(category, str) and 0<len(category):
+            self._category = category
         else:
-            TypeError("Category must be a string")   
+            TypeError("Name must be a string and cahracters greater than 0")
 
     def articles(self):
         return [article for article in Article.all if self == article.magazine]
+        
 
     def contributors(self):
         return list({article.author for article in self.articles()})
@@ -149,3 +133,7 @@ class Magazine:
             return list_of_authors
         else:
             return None
+
+
+
+
